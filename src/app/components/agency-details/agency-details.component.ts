@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AgencyServiceService } from 'src/app/services/agency-service.service';
 
 @Component({
   selector: 'app-agency-details',
@@ -13,10 +13,7 @@ export class AgencyDetailsComponent implements OnInit {
   public agencyDetails: any;
 
   pageSizeOptions: number[] = [10,15,20,50];
-  private apiKey = '50ffhqt39ag0oESvrzBqRL9p2sRTBMmD8b9g5QFj';
-  private headers = new HttpHeaders().set('X-API-Key', this.apiKey);
-
-  constructor(private route: ActivatedRoute,private http: HttpClient) { }
+  constructor(private route: ActivatedRoute,private agencyService: AgencyServiceService) { }
 
 
   ngOnInit() {
@@ -24,15 +21,18 @@ export class AgencyDetailsComponent implements OnInit {
     const agencyId = url[url.length - 1].path;
     this.fetchAgencyDetails(agencyId);
   }
-  fetchAgencyDetails(agencyId:any) {
-    this.http.get('https://api.foia.gov/api/agency_components/'+agencyId, { headers: this.headers }).subscribe(
-      (response: any) => {
-        console.log(response);
-        this.agencyDetails = response.data?.relationships;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+
+
+  fetchAgencyDetails(agencyId: any) {
+    this.agencyService.fetchAgencyDetails(agencyId)
+      .subscribe(
+        (response: any) => {
+          this.agencyDetails = response.data?.relationships;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
   }
+
 }
