@@ -1,0 +1,7 @@
+<h2>Agency Details</h2>
+
+<mat-list>
+  <mat-list-item *ngIf="agencyDetails?.hasOwnProperty('agency')">agency</mat-list-item>
+  <mat-list-item *ngIf="agencyDetails?.hasOwnProperty('foia_officers')">foia_officers</mat-list-item>
+  <mat-list-item *ngIf="agencyDetails?.hasOwnProperty('field_misc')">field_misc</mat-list-item>
+ </mat-list>
